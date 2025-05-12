@@ -1,0 +1,67 @@
+.notes-header {
+  height: 64px;
+  padding: 0 2rem;
+  background-color: #2e3a59;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  display: flex;
+
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .logo-icon {
+      font-size: 28px;
+      color: #ffca28;
+    }
+
+    .title {
+      color: #ffffff;
+      font-size: 1.4rem;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .spacer {
+    flex: 1;
+  }
+
+  .right-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .login-btn {
+      color: #ffffff;
+      text-transform: none;
+    }
+
+    .new-note-btn {
+      text-transform: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+  }
+}
+
+.logo-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-transform: none;
+  padding: 0;
+  color: inherit;
+  min-height: 64px;
+}
+
+.logo-button:hover {
+  opacity: 0.85;
+}
+
+.no-access-text {
+  font-size: 1.2rem;
+  color: rgb(212, 34, 34);
+  margin-bottom: 2rem;
+}

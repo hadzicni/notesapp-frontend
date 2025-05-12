@@ -1,0 +1,68 @@
+.fullscreen-container {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 64px); // ← wichtig!
+  background: white;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  padding-top: 4rem;
+  box-sizing: border-box;
+}
+
+.close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+
+  &:hover {
+    color: #000;
+  }
+}
+
+mat-form-field.title-input {
+  flex-shrink: 0;
+}
+
+mat-form-field.content-textarea {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+textarea {
+  flex-grow: 1;
+  resize: none;
+}
+
+.timestamps {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 1rem;
+
+  p {
+    margin: 0.2rem 0;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+
+  button {
+    min-width: 120px;
+  }
+}

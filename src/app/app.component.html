@@ -1,0 +1,16 @@
+<app-header></app-header>
+
+<ng-container>
+  <router-outlet></router-outlet>
+</ng-container>
+
+<button
+  mat-fab
+  color="accent"
+  *ngIf="authService.isLoggedIn"
+  class="floating-info-btn"
+  aria-label="Info"
+  (click)="openInfoDialog()"
+>
+  <mat-icon>info</mat-icon>
+</button>

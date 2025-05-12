@@ -1,0 +1,59 @@
+.note-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  min-height: 120px;
+  max-height: 120px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.25rem;
+    line-height: 1.4;
+  }
+
+  .content {
+    font-size: 0.95rem;
+    color: #555;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+}
+
+.favorite-icon {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: #fbc02d;
+  background: none;
+  border: none;
+  padding: 6px;
+  width: auto;
+  height: auto;
+
+  &:hover {
+    color: #ffa000;
+    background: none;
+  }
+
+  mat-icon {
+    font-size: 1.6rem;
+    line-height: 1;
+  }
+}

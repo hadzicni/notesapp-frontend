@@ -1,0 +1,16 @@
+<mat-card class="note-card" (click)="onCardClick()">
+  <button
+    mat-icon-button
+    class="favorite-icon"
+    (click)="toggleFavorite($event)"
+    aria-label="Toggle favorite"
+  >
+    <mat-icon>{{ isFavorite ? "star" : "star_border" }}</mat-icon>
+  </button>
+
+  <mat-card-title class="title">{{ note.title }}</mat-card-title>
+
+  <mat-card-content class="content">
+    <p>{{ note.content }}</p>
+  </mat-card-content>
+</mat-card>

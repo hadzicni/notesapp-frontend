@@ -1,0 +1,24 @@
+mat-dialog-title {
+  display: flex;
+  align-items: center;
+  font-size: 1.4rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+mat-dialog-title img {
+  height: 28px;
+}
+
+mat-dialog-content {
+  font-size: 1rem;
+  color: #333;
+
+  p {
+    margin: 0.5rem 0;
+  }
+}
+
+mat-dialog-actions {
+  margin-top: 1rem;
+}

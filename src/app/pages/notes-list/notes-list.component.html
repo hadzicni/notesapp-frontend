@@ -1,0 +1,37 @@
+<div *ngIf="authService.isLoggedIn" class="notes-list-container">
+  <div class="export-button-container" *ngIf="notes.length">
+    <button mat-raised-button color="primary" (click)="exportAllNotes()">
+      Export All Notes as PDF
+    </button>
+  </div>
+
+  <div class="notes-grid">
+    <a
+      [routerLink]="['/note', note.id]"
+      *ngFor="let note of notes"
+      class="note-card-link"
+    >
+      <app-note-card
+        [note]="note"
+        (favoriteToggled)="onFavoriteToggled($event)"
+      ></app-note-card>
+    </a>
+    <div *appIsInRole="AppRoles.Write">
+      <div class="add-note-card" (click)="openDialog()">
+        <mat-icon class="icon">add</mat-icon>
+      </div>
+
+      <div class="no-notes-message" *ngIf="!notes.length">
+        <p>No notes available. Click the "+" button to create a new note.</p>
+      </div>
+    </div>
+    <div class="no-notes-message" *appIsNotInRole="AppRoles.Write">
+      <p>No notes available.</p>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!authService.isLoggedIn" class="please-login-container">
+  <p>You need to log in to access your notes.</p>
+  <button mat-raised-button (click)="authService.login()">Login.</button>
+</div>

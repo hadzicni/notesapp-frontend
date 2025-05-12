@@ -1,0 +1,54 @@
+<div class="fullscreen-container" *ngIf="note">
+  <button mat-icon-button class="close-button" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <mat-form-field appearance="outline" class="title-input">
+    <mat-label>Title</mat-label>
+    <input matInput [(ngModel)]="note.title" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="content-textarea">
+    <mat-label>Content</mat-label>
+    <textarea matInput [(ngModel)]="note.content" rows="10"></textarea>
+  </mat-form-field>
+
+  <div class="timestamps">
+    <p>
+      <strong>Created:</strong>
+      {{ note.createdAt | date : "dd.MM.yyyy, HH:mm" }}
+    </p>
+    <p>
+      <strong>Updated:</strong>
+      {{ note.updatedAt | date : "dd.MM.yyyy, HH:mm" }}
+    </p>
+  </div>
+
+  <div class="actions">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="save()"
+      *appIsInRole="AppRoles.Update"
+    >
+      Save
+    </button>
+    <button
+      mat-raised-button
+      color="warn"
+      (click)="delete()"
+      *appIsInRole="AppRoles.Delete"
+    >
+      Delete
+    </button>
+    <button mat-raised-button color="accent" (click)="toggleFavorite()">
+      {{ note.favorite ? "Unmark Favorite" : "Mark as Favorite" }}
+    </button>
+    <button mat-raised-button color="accent" (click)="toggleArchive()">
+      {{ note.archived ? "Unarchive" : "Archive" }}
+    </button>
+    <button mat-raised-button color="primary" (click)="exportSingleNote()">
+      Export as PDF
+    </button>
+  </div>
+</div>

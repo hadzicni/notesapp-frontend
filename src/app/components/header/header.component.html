@@ -1,0 +1,50 @@
+<mat-toolbar color="primary" class="notes-header">
+  <div class="left">
+    <button mat-button class="logo-button" [routerLink]="['/']">
+      <img
+        src="favicon.ico"
+        alt="Logo"
+        style="height: 24px; margin-right: 8px; transform: scale(1.4)"
+      />
+      <span class="title">
+        NotesApp
+        <span *ngIf="!authService.isLoggedIn" class="no-access-text"
+          >- No Access</span
+        >
+      </span>
+    </button>
+  </div>
+
+  <span class="spacer"></span>
+
+  <div class="right-actions">
+    <button
+      mat-button
+      class="login-btn"
+      *ngIf="!authService.isLoggedIn"
+      (click)="login()"
+    >
+      Login
+    </button>
+
+    <button
+      mat-button
+      class="login-btn"
+      *ngIf="authService.isLoggedIn"
+      (click)="logout()"
+    >
+      {{ authService.userName }} | Logout
+    </button>
+
+    <button
+      mat-raised-button
+      color="accent"
+      class="new-note-btn"
+      (click)="openDialog()"
+      *appIsInRole="AppRoles.Write"
+    >
+      <mat-icon>add</mat-icon>
+      New Note
+    </button>
+  </div>
+</mat-toolbar>
