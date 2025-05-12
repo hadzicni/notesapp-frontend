@@ -37,3 +37,10 @@
     </div>
   </ng-template>
 </div>
+
+<div *ngIf="!authService.isLoggedIn" class="please-login-container">
+  <p>You need to log in to access your notes.</p>
+  <button mat-raised-button color="primary" (click)="authService.login()">
+    Login
+  </button>
+</div>
