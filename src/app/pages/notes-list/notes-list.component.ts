@@ -107,6 +107,7 @@ export class NotesListComponent implements OnInit {
       if (newNote) {
         this.notes.unshift(newNote);
       }
+      this.sortNotesByFavorite(this.notes);
     });
   }
 }

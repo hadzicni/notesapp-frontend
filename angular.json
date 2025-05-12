@@ -22,7 +22,7 @@
           "options": {
             "allowedCommonJsDependencies": ["moment", "fast-sha256"],
             "outputPath": {
-              "base": "dist/demo-app-frontend"
+              "base": "dist/notesapp-frontend"
             },
             "index": "src/index.html",
             "polyfills": ["src/polyfills.ts"],
