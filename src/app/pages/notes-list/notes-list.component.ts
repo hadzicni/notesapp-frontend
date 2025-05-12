@@ -100,12 +100,12 @@ export class NotesListComponent implements OnInit {
     });
   }
 
-  openDialog() {
+  openDialog(): void {
     const dialogRef = this.dialog.open(NoteDialogComponent);
 
-    dialogRef.afterClosed().subscribe((newNote: Note | undefined) => {
+    dialogRef.afterClosed().subscribe((newNote) => {
       if (newNote) {
-        this.notes.push(newNote);
+        this.notes.unshift(newNote);
       }
     });
   }

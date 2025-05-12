@@ -5,7 +5,7 @@
     </button>
   </div>
 
-  <div class="notes-grid">
+  <div *ngIf="notes.length; else noNotesBlock" class="notes-grid">
     <a
       [routerLink]="['/note', note.id]"
       *ngFor="let note of notes"
@@ -16,22 +16,24 @@
         (favoriteToggled)="onFavoriteToggled($event)"
       ></app-note-card>
     </a>
-    <div *appIsInRole="AppRoles.Write">
-      <div class="add-note-card" (click)="openDialog()">
-        <mat-icon class="icon">add</mat-icon>
-      </div>
 
-      <div class="no-notes-message" *ngIf="!notes.length">
-        <p>No notes available. Click the "+" button to create a new note.</p>
-      </div>
-    </div>
-    <div class="no-notes-message" *appIsNotInRole="AppRoles.Write">
-      <p>No notes available.</p>
+    <div
+      *appIsInRole="AppRoles.Write"
+      class="add-note-card"
+      (click)="openDialog()"
+    >
+      <mat-icon class="icon">add</mat-icon>
     </div>
   </div>
-</div>
 
-<div *ngIf="!authService.isLoggedIn" class="please-login-container">
-  <p>You need to log in to access your notes.</p>
-  <button mat-raised-button (click)="authService.login()">Login.</button>
+  <ng-template #noNotesBlock>
+    <div class="no-notes-wrapper">
+      <div class="no-notes-message" *appIsInRole="AppRoles.Write">
+        <p>No notes available. Click the "+" button to create a new note.</p>
+      </div>
+      <div class="no-notes-message" *appIsNotInRole="AppRoles.Write">
+        <p>No notes available.</p>
+      </div>
+    </div>
+  </ng-template>
 </div>
