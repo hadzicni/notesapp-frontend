@@ -2,11 +2,11 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-note-not-found',
-  templateUrl: './note-not-found.component.html',
-  styleUrls: ['./note-not-found.component.scss'],
+  selector: 'app-not-found',
+  templateUrl: './not-found.component.html',
+  styleUrls: ['./not-found.component.scss'],
 })
-export class NoteNotFoundComponent {
+export class NotFoundComponent {
   constructor(private location: Location) {}
 
   goBack() {
