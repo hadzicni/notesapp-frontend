@@ -3,25 +3,17 @@
     <mat-icon>close</mat-icon>
   </button>
 
-  <mat-form-field appearance="outline" class="title-input">
-    <mat-label>Title</mat-label>
-    <input matInput [(ngModel)]="note.title" />
-  </mat-form-field>
+  <input class="custom-title" [(ngModel)]="note.title" placeholder="Title" />
 
-  <mat-form-field appearance="outline" class="content-textarea">
-    <mat-label>Content</mat-label>
-    <textarea matInput [(ngModel)]="note.content" rows="10"></textarea>
-  </mat-form-field>
+  <textarea
+    class="custom-textarea"
+    [(ngModel)]="note.content"
+    placeholder="Write your note..."
+  ></textarea>
 
-  <div class="timestamps">
-    <p>
-      <strong>Created:</strong>
-      {{ note.createdAt | date : "dd.MM.yyyy, HH:mm" }}
-    </p>
-    <p>
-      <strong>Updated:</strong>
-      {{ note.updatedAt | date : "dd.MM.yyyy, HH:mm" }}
-    </p>
+  <div class="meta">
+    <span>Created: {{ note.createdAt | date : "dd.MM.yyyy, HH:mm" }}</span> •
+    <span>Updated: {{ note.updatedAt | date : "dd.MM.yyyy, HH:mm" }}</span>
   </div>
 
   <div class="actions">

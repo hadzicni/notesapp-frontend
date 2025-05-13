@@ -49,7 +49,16 @@ export class NoteFullscreenComponent implements OnInit {
     const noteId = this.route.snapshot.paramMap.get('id');
     if (noteId) {
       this.notesService.getNoteById(+noteId).subscribe({
-        next: (note) => (this.note = note),
+        next: (note) => {
+          if (note) {
+            this.note = note;
+          } else {
+            this.router.navigate(['/notfound']);
+          }
+        },
+        error: () => {
+          this.router.navigate(['/notfound']);
+        },
       });
     } else {
       this.router.navigate(['/notfound']);
