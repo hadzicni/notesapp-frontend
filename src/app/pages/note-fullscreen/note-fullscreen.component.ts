@@ -35,6 +35,7 @@ import { NotesService } from '../../services/notes.service';
 export class NoteFullscreenComponent implements OnInit {
   note!: Note;
   readonly AppRoles = AppRoles;
+  private readonly NOT_FOUND_ROUTE = '/notfound';
 
   constructor(
     private route: ActivatedRoute,
@@ -53,15 +54,15 @@ export class NoteFullscreenComponent implements OnInit {
           if (note) {
             this.note = note;
           } else {
-            this.router.navigate(['/notfound']);
+            this.router.navigate([this.NOT_FOUND_ROUTE]);
           }
         },
         error: () => {
-          this.router.navigate(['/notfound']);
+          this.router.navigate([this.NOT_FOUND_ROUTE]);
         },
       });
     } else {
-      this.router.navigate(['/notfound']);
+      this.router.navigate([this.NOT_FOUND_ROUTE]);
     }
   }
 
