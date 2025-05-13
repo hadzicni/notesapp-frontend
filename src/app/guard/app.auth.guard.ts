@@ -9,6 +9,8 @@ import {
 import { OAuthService } from 'angular-oauth2-oidc';
 import { AppAuthService } from '../services/app.auth.service';
 
+const NO_ACCESS_ROUTE = '/noaccess';
+
 export const appCanActivate: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -27,11 +29,11 @@ export const appCanActivate: CanActivateFn = (
   if (oauthService.hasValidAccessToken()) {
     const hasRoles = checkRoles(route, userRoles);
     if (!hasRoles) {
-      return router.parseUrl('/noaccess');
+      return router.parseUrl(NO_ACCESS_ROUTE);
     }
     return hasRoles;
   }
-  return router.parseUrl('/noaccess');
+  return router.parseUrl(NO_ACCESS_ROUTE);
 };
 
 function checkRoles(

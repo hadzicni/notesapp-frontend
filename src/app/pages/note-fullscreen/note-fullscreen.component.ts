@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppRoles } from '../../../app.roles';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
+import { AutoFocusDirective } from '../../dir/autofocus-dir';
 import { IsInRoleDirective } from '../../dir/is.in.role.dir';
 import { Note } from '../../models/note.model';
 import { NoteExportService } from '../../services/note-export.service';
@@ -28,6 +29,7 @@ import { NotesService } from '../../services/notes.service';
     DatePipe,
     CommonModule,
     IsInRoleDirective,
+    AutoFocusDirective,
   ],
   templateUrl: './note-fullscreen.component.html',
   styleUrls: ['./note-fullscreen.component.scss'],
