@@ -1,5 +1,5 @@
 {
-  "name": "demo-app-frontend",
+  "name": "NotesApp-Frontend",
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",

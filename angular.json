@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "demo-app-frontend": {
+    "NotesApp-Frontend": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -76,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "demo-app-frontend:build:production"
+              "buildTarget": "NotesApp-Frontend:build:production"
             },
             "development": {
-              "buildTarget": "demo-app-frontend:build:development"
+              "buildTarget": "NotesApp-Frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -87,7 +87,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "demo-app-frontend:build"
+            "buildTarget": "NotesApp-Frontend:build"
           }
         },
         "test": {
