@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MetaService } from '../../services/meta.service';
@@ -11,7 +11,7 @@ import { MetaService } from '../../services/meta.service';
   templateUrl: './info-dialog.component.html',
   styleUrls: ['./info-dialog.component.scss'],
 })
-export class InfoDialogComponent {
+export class InfoDialogComponent implements OnInit {
   appName = '';
   appVersion = '';
 

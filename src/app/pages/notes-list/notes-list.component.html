@@ -21,6 +21,10 @@
       *appIsInRole="AppRoles.Write"
       class="add-note-card"
       (click)="openDialog()"
+      (keydown.enter)="openDialog()"
+      tabindex="0"
+      role="button"
+      aria-label="Add new note"
     >
       <mat-icon class="icon">add</mat-icon>
     </div>
