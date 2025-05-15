@@ -21,6 +21,7 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
 import { NotebookDialogComponent } from '../../components/notebook-dialog/notebook-dialog.component';
 import { TagDialogComponent } from '../../components/tag-dialog/tag-dialog.component';
 import { TodoDialogComponent } from '../../components/todo-dialog/todo-dialog.component';
+import { UnsavedChangesDialogComponent } from '../../components/unsaved-changes-dialog/unsaved-changes-dialog.component';
 import { AutoFocusDirective } from '../../dir/autofocus-dir';
 import { IsInRoleDirective } from '../../dir/is.in.role.dir';
 import { NoteTitleValidatorDirective } from '../../dir/note-title.validator';
@@ -432,7 +433,20 @@ export class NoteFullscreenComponent implements OnInit {
   }
 
   close(): void {
-    this.router.navigate(['/']);
+    if (!this.hasChanged()) {
+      this.router.navigate(['/']);
+      return;
+    }
+
+    const dialogRef = this.dialog.open(UnsavedChangesDialogComponent, {
+      width: '350px',
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.router.navigate(['/']);
+      }
+    });
   }
 
   get characterCount(): number {

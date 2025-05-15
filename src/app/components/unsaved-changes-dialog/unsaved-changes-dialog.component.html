@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Unsaved Changes</h2>
+<mat-dialog-content
+  >You have unsaved changes. Do you really want to leave?</mat-dialog-content
+>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="warn" (click)="confirm()">Leave</button>
+</mat-dialog-actions>

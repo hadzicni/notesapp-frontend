@@ -5,6 +5,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
+import { filter, take } from 'rxjs';
 import { AppRoles } from '../../../app.roles';
 import { NoteCardComponent } from '../../components/note-card/note-card.component';
 import { NoteDialogComponent } from '../../components/note-dialog/note-dialog.component';
@@ -46,8 +47,12 @@ export class NotesListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.authService.authStatus$.subscribe((isLoggedIn) => {
-      if (isLoggedIn) {
+    this.authService.authStatus$
+      .pipe(
+        filter((loggedIn) => loggedIn),
+        take(1)
+      )
+      .subscribe(() => {
         this.notesService.getNotes().subscribe({
           next: (fetchedNotes) => {
             const sorted = this.sortNotesByFavorite(fetchedNotes);
@@ -58,8 +63,7 @@ export class NotesListComponent implements OnInit {
         this.notesService.notes$.subscribe((notes) => {
           this.notes = this.sortNotesByFavorite(notes);
         });
-      }
-    });
+      });
   }
 
   private sortNotesByFavorite(notes: Note[]): Note[] {
