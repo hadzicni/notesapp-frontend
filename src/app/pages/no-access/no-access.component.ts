@@ -1,5 +1,5 @@
-import { Location } from '@angular/common';
 import { Component } from '@angular/core';
+import { AppAuthService } from '../../services/app.auth.service';
 
 @Component({
   selector: 'app-no-access',
@@ -7,9 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './no-access.component.scss',
 })
 export class NoAccessComponent {
-  constructor(private location: Location) {}
+  constructor(private authService: AppAuthService) {}
 
-  goBack() {
-    this.location.back();
+  login() {
+    this.authService.login();
   }
 }

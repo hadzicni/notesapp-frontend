@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -12,10 +12,10 @@ import { AppRoles } from '../../../app.roles';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { AutoFocusDirective } from '../../dir/autofocus-dir';
 import { IsInRoleDirective } from '../../dir/is.in.role.dir';
+import { NoteTitleValidatorDirective } from '../../dir/note-title.validator';
 import { Note } from '../../models/note.model';
 import { NoteExportService } from '../../services/note-export.service';
 import { NotesService } from '../../services/notes.service';
-import { NoteTitleValidatorDirective } from '../../dir/note-title.validator';
 
 @Component({
   selector: 'app-note-fullscreen',
@@ -39,6 +39,7 @@ import { NoteTitleValidatorDirective } from '../../dir/note-title.validator';
 export class NoteFullscreenComponent implements OnInit {
   note!: Note;
   readonly AppRoles = AppRoles;
+  private originalNote?: Note;
   private readonly NOT_FOUND_ROUTE = '/notfound';
 
   constructor(
@@ -56,7 +57,8 @@ export class NoteFullscreenComponent implements OnInit {
       this.notesService.getNoteById(+noteId).subscribe({
         next: (note) => {
           if (note) {
-            this.note = note;
+            this.note = { ...note };
+            this.originalNote = { ...note };
           } else {
             this.router.navigate([this.NOT_FOUND_ROUTE]);
           }
@@ -67,6 +69,24 @@ export class NoteFullscreenComponent implements OnInit {
       });
     } else {
       this.router.navigate([this.NOT_FOUND_ROUTE]);
+    }
+  }
+
+  hasChanged(): boolean {
+    return JSON.stringify(this.note) !== JSON.stringify(this.originalNote);
+  }
+
+  reset() {
+    if (this.originalNote) {
+      this.note = { ...this.originalNote };
+    }
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification(event: BeforeUnloadEvent) {
+    if (this.hasChanged()) {
+      event.preventDefault();
+      event.returnValue = '';
     }
   }
 
@@ -141,6 +161,22 @@ export class NoteFullscreenComponent implements OnInit {
     this.snackBar.open('Download started…', 'Close', {
       duration: 3000,
     });
+  }
+
+  get characterCount(): number {
+    return this.note?.content?.length || 0;
+  }
+
+  get wordCount(): number {
+    if (!this.note?.content) return 0;
+    return this.note.content
+      .trim()
+      .split(/\s+/)
+      .filter((w) => w.length > 0).length;
+  }
+
+  get lineCount(): number {
+    return (this.note?.content?.match(/\n/g) || []).length + 1;
   }
 
   close() {

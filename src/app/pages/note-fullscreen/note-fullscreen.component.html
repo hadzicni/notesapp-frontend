@@ -28,6 +28,11 @@
     appAutoFocus
   ></textarea>
 
+  <div class="counter">
+    Characters: {{ characterCount }} • Words: {{ wordCount }} • Lines:
+    {{ lineCount }}
+  </div>
+
   <div class="meta">
     <span>Created: {{ note.createdAt | date : "dd.MM.yyyy, HH:mm" }}</span> •
     <span>Updated: {{ note.updatedAt | date : "dd.MM.yyyy, HH:mm" }}</span>
@@ -49,6 +54,9 @@
       *appIsInRole="AppRoles.Delete"
     >
       Delete
+    </button>
+    <button mat-raised-button (click)="reset()" *ngIf="hasChanged()">
+      Undo Changes
     </button>
     <button mat-raised-button color="accent" (click)="toggleFavorite()">
       {{ note.favorite ? "Unmark Favorite" : "Mark as Favorite" }}
