@@ -1,15 +1,28 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
-import { NotesListComponent } from './notes-list.component';
+import { AppAuthService } from './app.auth.service';
 
-describe('NotesListComponent', () => {
-  let component: NotesListComponent;
-  let fixture: ComponentFixture<NotesListComponent>;
+describe('AppAuthService', () => {
+  let service: AppAuthService;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, NotesListComponent],
+  const mockOAuthService = {
+    hasValidAccessToken: () => true,
+    getAccessToken: () => 'fake-token',
+    getIdentityClaims: () => ({
+      preferred_username: 'testuser',
+      given_name: 'Test',
+      family_name: 'User',
+    }),
+    configure: () => {},
+    loadDiscoveryDocumentAndTryLogin: () => {},
+    setupAutomaticSilentRefresh: () => {},
+    events: { subscribe: (_: any) => {} },
+    initLoginFlow: () => {},
+    logOut: () => {},
+  };
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       providers: [
         {
           provide: OAuthService,
@@ -39,15 +52,14 @@ describe('NotesListComponent', () => {
         },
         { provide: AuthConfig, useValue: {} },
         { provide: AuthConfig, useValue: {} },
+        AppAuthService,
       ],
-    }).compileComponents();
+    });
 
-    fixture = TestBed.createComponent(NotesListComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    service = TestBed.inject(AppAuthService);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should be created', () => {
+    expect(service).toBeTruthy();
   });
 });

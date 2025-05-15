@@ -1,5 +1,6 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NoteDialogComponent } from './note-dialog.component';
 
 describe('NoteDialogComponent', () => {
@@ -8,9 +9,12 @@ describe('NoteDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NoteDialogComponent]
-    })
-    .compileComponents();
+      imports: [NoteDialogComponent, HttpClientTestingModule],
+      providers: [
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(NoteDialogComponent);
     component = fixture.componentInstance;

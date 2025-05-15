@@ -1,5 +1,6 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ActivatedRoute } from '@angular/router';
 import { NoteFullscreenComponent } from './note-fullscreen.component';
 
 describe('NoteFullscreenComponent', () => {
@@ -8,9 +9,14 @@ describe('NoteFullscreenComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NoteFullscreenComponent]
-    })
-    .compileComponents();
+      imports: [NoteFullscreenComponent, HttpClientTestingModule],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: { snapshot: { paramMap: new Map() } },
+        },
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(NoteFullscreenComponent);
     component = fixture.componentInstance;
