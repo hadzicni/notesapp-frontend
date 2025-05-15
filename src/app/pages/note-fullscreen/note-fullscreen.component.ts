@@ -90,6 +90,12 @@ export class NoteFullscreenComponent implements OnInit {
     }
   }
 
+  @HostListener('document:keydown.control.s', ['$event'])
+  handleSaveShortcut(event: KeyboardEvent): void {
+    event.preventDefault();
+    this.save();
+  }
+
   save() {
     this.notesService.updateNote(this.note).subscribe({
       next: () => {
