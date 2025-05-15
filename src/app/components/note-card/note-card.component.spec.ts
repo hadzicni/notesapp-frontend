@@ -21,6 +21,7 @@ describe('NoteCardComponent', () => {
       favorite: true,
       createdAt: '',
       updatedAt: '',
+      userId: 'user123',
     };
     fixture.detectChanges();
   });

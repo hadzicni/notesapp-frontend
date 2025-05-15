@@ -1,23 +1,27 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { TodosService } from '../../services/todos.service';
 import { TodoDialogComponent } from './todo-dialog.component';
 
 describe('TodoDialogComponent', () => {
-  let component: TodoDialogComponent;
-  let fixture: ComponentFixture<TodoDialogComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [TodoDialogComponent]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(TodoDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule, TodoDialogComponent],
+      providers: [
+        TodosService,
+        { provide: MatDialogRef, useValue: {} },
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: {},
+        },
+      ],
+    });
   });
 
   it('should create', () => {
+    const fixture = TestBed.createComponent(TodoDialogComponent);
+    const component = fixture.componentInstance;
     expect(component).toBeTruthy();
   });
 });

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { MatDialogRef } from '@angular/material/dialog';
 import { createSpyFromClass, Spy } from 'jasmine-auto-spies';
 import { CreateNote, Note, UpdateNote } from '../models/note.model';
 import { NotesService } from './notes.service';
@@ -16,6 +17,7 @@ describe('NotesService', () => {
     favorite: false,
     createdAt: '2025-01-01T00:00:00.000Z',
     updatedAt: '2025-01-01T00:00:00.000Z',
+    userId: 'user123',
   };
 
   beforeEach(() => {
@@ -23,6 +25,7 @@ describe('NotesService', () => {
       providers: [
         { provide: HttpClient, useValue: createSpyFromClass(HttpClient) },
         NotesService,
+        { provide: MatDialogRef, useValue: {} },
       ],
       teardown: { destroyAfterEach: true },
     });
@@ -176,5 +179,46 @@ describe('NotesService', () => {
     });
 
     expect(httpSpy.patch.calls.count()).toBe(1);
+  });
+
+  it('should set notes', () => {
+    const newNotes: Note[] = [
+      {
+        id: 2,
+        title: 'New Note',
+        content: 'Content',
+        archived: false,
+        favorite: false,
+        createdAt: '2025-02-01',
+        updatedAt: '2025-02-01',
+        userId: 'user123',
+      },
+    ];
+
+    service.setNotes(newNotes);
+
+    service.notes$.subscribe((notes) => {
+      expect(notes).toEqual(newNotes);
+    });
+  });
+
+  it('should add a new note', () => {
+    const newNote: Note = {
+      id: 3,
+      title: 'Added Note',
+      content: 'Content',
+      archived: false,
+      favorite: false,
+      createdAt: '2025-03-01',
+      updatedAt: '2025-03-01',
+      userId: 'user123',
+    };
+
+    service.addNote(newNote);
+
+    service.notes$.subscribe((notes) => {
+      expect(notes.length).toBe(1);
+      expect(notes[0]).toEqual(newNote);
+    });
   });
 });

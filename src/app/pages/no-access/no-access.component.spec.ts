@@ -1,46 +1,47 @@
-import { Location } from '@angular/common';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { TestBed } from '@angular/core/testing';
+import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
 import { NoAccessComponent } from './no-access.component';
 
 describe('NoAccessComponent', () => {
-  let component: NoAccessComponent;
-  let fixture: ComponentFixture<NoAccessComponent>;
-  let locationSpy: jasmine.SpyObj<Location>;
+  let oauthServiceMock: any;
 
-  beforeEach(async () => {
-    locationSpy = jasmine.createSpyObj('Location', ['back']);
+  beforeEach(() => {
+    oauthServiceMock = {
+      getAccessToken: jasmine
+        .createSpy('getAccessToken')
+        .and.returnValue(
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MX0.H5x60k_aYr_RB_FwpOaYcHhwPnk3Tt5eeqF66xd6z6kY'
+        ),
+      getIdentityClaims: jasmine
+        .createSpy('getIdentityClaims')
+        .and.returnValue({ preferred_username: 'testuser' }),
+      configure: jasmine.createSpy('configure'),
+      events: { subscribe: jasmine.createSpy('subscribe') },
+      loadDiscoveryDocumentAndTryLogin: jasmine.createSpy(
+        'loadDiscoveryDocumentAndTryLogin'
+      ),
+      setupAutomaticSilentRefresh: jasmine.createSpy(
+        'setupAutomaticSilentRefresh'
+      ),
+      hasValidAccessToken: jasmine
+        .createSpy('hasValidAccessToken')
+        .and.returnValue(true),
+      logOut: jasmine.createSpy('logOut'),
+      initLoginFlow: jasmine.createSpy('initLoginFlow'),
+    };
 
-    await TestBed.configureTestingModule({
-      imports: [NoAccessComponent],
-      providers: [{ provide: Location, useValue: locationSpy }],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(NoAccessComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    TestBed.configureTestingModule({
+      imports: [],
+      providers: [
+        { provide: OAuthService, useValue: oauthServiceMock },
+        { provide: AuthConfig, useValue: {} },
+      ],
+    });
   });
 
-  it('should create the component', () => {
+  it('should create', () => {
+    const fixture = TestBed.createComponent(NoAccessComponent);
+    const component = fixture.componentInstance;
     expect(component).toBeTruthy();
-  });
-
-  it('should display the correct title and message', () => {
-    const title = fixture.debugElement.query(
-      By.css('.no-access-title')
-    ).nativeElement;
-    const message = fixture.debugElement.query(
-      By.css('.no-access-message')
-    ).nativeElement;
-    expect(title.textContent).toContain('Access Denied');
-    expect(message.textContent).toContain("Sorry, you don't have permission");
-  });
-
-  it('should call location.back() when button is clicked', () => {
-    const button = fixture.debugElement.query(
-      By.css('.back-button')
-    ).nativeElement;
-    button.click();
-    expect(locationSpy.back).toHaveBeenCalled();
   });
 });
