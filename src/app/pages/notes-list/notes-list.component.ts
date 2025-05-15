@@ -78,6 +78,10 @@ export class NotesListComponent implements OnInit {
     });
   }
 
+  onNoteDeleted(noteId: number): void {
+    this.notes = this.notes.filter((note) => note.id !== noteId);
+  }
+
   onFavoriteToggled(updatedNote: Note) {
     this.notesService
       .markAsFavorite(updatedNote, updatedNote.favorite)

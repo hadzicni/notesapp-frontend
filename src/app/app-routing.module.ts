@@ -23,7 +23,7 @@ const routes: Routes = [
     path: 'note/:id',
     component: NoteFullscreenComponent,
     canActivate: [appCanActivate],
-    data: { roles: [AppRoles.Update] },
+    data: { roles: [AppRoles.Read] },
   },
   { path: 'noaccess', component: NoAccessComponent },
   { path: 'notfound', component: NotFoundComponent },

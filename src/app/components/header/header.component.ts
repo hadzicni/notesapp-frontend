@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AppRoles } from '../../../app.roles';
 import { IsInRoleDirective } from '../../dir/is.in.role.dir';
 import { AppAuthService } from '../../services/app.auth.service';
@@ -29,7 +29,8 @@ export class HeaderComponent {
   constructor(
     private dialog: MatDialog,
     public authService: AppAuthService,
-    private notesService: NotesService
+    private notesService: NotesService,
+    private router: Router
   ) {}
   readonly AppRoles = AppRoles;
 
@@ -43,7 +44,7 @@ export class HeaderComponent {
     });
   }
 
-  login() {
+  login(): void {
     this.authService.login();
   }
 

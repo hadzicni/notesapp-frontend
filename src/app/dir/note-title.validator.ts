@@ -25,7 +25,7 @@ export class NoteTitleValidatorDirective implements Validator {
       return { emptyTitle: true };
     }
 
-    if (value.length == 20) {
+    if (value.length == 15) {
       return { maxLength: true };
     }
 

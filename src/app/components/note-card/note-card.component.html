@@ -4,6 +4,7 @@
     class="favorite-icon"
     (click)="toggleFavorite($event)"
     aria-label="Toggle favorite"
+    matTooltip="Mark as favorite"
   >
     <mat-icon>{{ isFavorite ? "star" : "star_border" }}</mat-icon>
   </button>
@@ -13,4 +14,17 @@
   <mat-card-content class="content">
     <p>{{ note.content }}</p>
   </mat-card-content>
+
+  <div class="card-footer">
+    <button
+      mat-icon-button
+      class="delete-icon"
+      (click)="onDeleteClick($event)"
+      aria-label="Delete note"
+      matTooltip="Delete note"
+      type="button"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
 </mat-card>

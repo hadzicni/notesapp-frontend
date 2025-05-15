@@ -1,21 +1,35 @@
-.favorite-icon {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  color: #fbc02d;
-  background: none;
-  border: none;
-  padding: 6px;
-  width: auto;
-  height: auto;
+.note-card {
+  position: relative;
 
-  &:hover {
-    color: #ffa000;
-    background: none;
+  .favorite-icon,
+  .delete-icon {
+    all: unset;
+    cursor: pointer;
+    position: absolute;
+
+    mat-icon {
+      font-size: 20px;
+      color: inherit;
+    }
   }
 
-  mat-icon {
-    font-size: 1.6rem;
-    line-height: 1;
+  .favorite-icon {
+    top: 0.5rem;
+    right: 0.5rem;
+    color: #fbc02d;
+
+    &:hover {
+      color: #ffa000;
+    }
+  }
+
+  .delete-icon {
+    bottom: 0.5rem;
+    right: 0.5rem;
+    color: #e57373;
+
+    &:hover {
+      color: #d32f2f;
+    }
   }
 }
