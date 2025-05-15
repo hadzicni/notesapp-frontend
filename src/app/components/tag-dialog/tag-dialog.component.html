@@ -1,23 +1,23 @@
-<h2 mat-dialog-title class="dialog-title">🏷️ Neuer Tag</h2>
+<h2 mat-dialog-title class="dialog-title">🏷️ New Tag</h2>
 
 <mat-dialog-content [formGroup]="form" class="dialog-content">
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Name</mat-label>
     <input matInput maxlength="50" formControlName="name" />
     <mat-error *ngIf="form.get('name')?.hasError('required')">
-      Name ist erforderlich
+      Name is required
     </mat-error>
   </mat-form-field>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end" class="dialog-actions">
-  <button mat-stroked-button color="warn" (click)="close()">Abbrechen</button>
+  <button mat-stroked-button color="warn" (click)="close()">Cancel</button>
   <button
     mat-flat-button
     color="primary"
     [disabled]="form.invalid"
     (click)="save()"
   >
-    Tag erstellen
+    Create Tag
   </button>
 </mat-dialog-actions>
