@@ -1,4 +1,6 @@
-<h2 mat-dialog-title class="dialog-title">🏷️ New Tag</h2>
+<h2 mat-dialog-title class="dialog-title">
+  🏷️ {{ isEditMode ? "Edit Tag" : "New Tag" }}
+</h2>
 
 <mat-dialog-content [formGroup]="form" class="dialog-content">
   <mat-form-field appearance="outline" class="full-width">
@@ -18,6 +20,6 @@
     [disabled]="form.invalid"
     (click)="save()"
   >
-    Create Tag
+    {{ isEditMode ? "Update" : "Create" }}
   </button>
 </mat-dialog-actions>

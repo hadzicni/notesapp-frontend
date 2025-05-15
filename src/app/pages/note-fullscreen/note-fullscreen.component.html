@@ -1,5 +1,10 @@
 <div class="fullscreen-container" *ngIf="note">
-  <button mat-icon-button class="close-button" (click)="close()">
+  <button
+    mat-icon-button
+    class="close-button"
+    (click)="close()"
+    aria-label="Close note"
+  >
     <mat-icon>close</mat-icon>
   </button>
 
@@ -11,36 +16,42 @@
     #titleInput="ngModel"
     placeholder="Title"
     maxlength="15"
+    aria-describedby="titleErrors"
   />
-
-  <div *ngIf="titleInput.errors?.['emptyTitle']" class="error-msg">
-    Title cannot be empty.
-  </div>
-  <div *ngIf="titleInput.errors?.['maxLength']" class="error-msg">
-    Title must be at most 15 characters long.
-  </div>
-  <div *ngIf="titleInput.errors?.['invalidCharacters']" class="error-msg">
-    Title contains invalid characters.
+  <div
+    id="titleErrors"
+    class="error-msg"
+    *ngIf="titleInput.invalid && (titleInput.dirty || titleInput.touched)"
+  >
+    <div *ngIf="titleInput.errors?.['emptyTitle']">Title cannot be empty.</div>
+    <div *ngIf="titleInput.errors?.['maxLength']">
+      Title must be at most 15 characters long.
+    </div>
+    <div *ngIf="titleInput.errors?.['invalidCharacters']">
+      Title contains invalid characters.
+    </div>
   </div>
 
   <textarea
     class="custom-textarea"
     [(ngModel)]="note.content"
+    name="content"
     placeholder="Write your note..."
     appAutoFocus
+    aria-label="Note content"
   ></textarea>
 
-  <div class="counter">
+  <div class="counter" aria-live="polite" aria-atomic="true">
     Characters: {{ characterCount }} • Words: {{ wordCount }} • Lines:
     {{ lineCount }}
   </div>
 
-  <div class="meta">
+  <div class="meta" aria-label="Note metadata">
     <span>Created: {{ note.createdAt | date : "dd.MM.yyyy, HH:mm" }}</span> •
     <span>Updated: {{ note.updatedAt | date : "dd.MM.yyyy, HH:mm" }}</span>
   </div>
 
-  <!-- Notebook selection + create / edit / delete -->
+  <!-- Notebook Selection -->
   <div class="selection-group">
     <mat-form-field appearance="fill" class="notebook-select">
       <mat-label>Notebook</mat-label>
@@ -48,6 +59,7 @@
         [(value)]="note.notebook"
         (selectionChange)="selectNotebook($event.value)"
         [compareWith]="compareNotebooks"
+        aria-label="Select notebook"
       >
         <mat-option [value]="null">No notebook</mat-option>
         <mat-option *ngFor="let nb of notebooks" [value]="nb">{{
@@ -95,7 +107,7 @@
     </button>
   </div>
 
-  <!-- Tag selection + create / edit / delete -->
+  <!-- Tag Selection -->
   <div class="selection-group">
     <mat-form-field appearance="fill" class="tags-select">
       <mat-label>Tags</mat-label>
@@ -104,6 +116,7 @@
         multiple
         (selectionChange)="onTagsChange($event.value)"
         [compareWith]="compareTags"
+        aria-label="Select tags"
       >
         <mat-option *ngFor="let tag of tags" [value]="tag">{{
           tag.name
@@ -149,6 +162,62 @@
       <mat-icon>delete</mat-icon>
     </button>
   </div>
+
+  <div class="todo-section" *ngIf="note">
+    <div class="todo-header">
+      <h3 class="todo-title">Todos</h3>
+      <button
+        mat-icon-button
+        color="primary"
+        aria-label="Add todo"
+        (click)="openCreateTodoDialog()"
+        class="icon-button"
+        matTooltip="Create new todo"
+        matTooltipPosition="above"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+
+    <div class="todo-list">
+      <mat-list>
+        <mat-list-item *ngFor="let todo of todos; trackBy: trackByTodoId">
+          <mat-checkbox
+            [(ngModel)]="todo.done"
+            (change)="updateTodo(todo)"
+            aria-label="Mark todo done"
+          >
+            {{ todo.title }}
+          </mat-checkbox>
+
+          <span class="due-date" *ngIf="todo.dueDate">
+            • due {{ todo.dueDate | date : "dd.MM.yyyy" }}
+          </span>
+
+          <button
+            mat-icon-button
+            color="accent"
+            (click)="openEditTodoDialog(todo)"
+            matTooltip="Edit todo"
+            aria-label="Edit todo"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="deleteTodo(todo)"
+            matTooltip="Delete todo"
+            aria-label="Delete todo"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+
   <div class="actions">
     <button
       mat-raised-button

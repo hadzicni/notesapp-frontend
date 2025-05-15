@@ -1,12 +1,13 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, HostListener, OnInit } from '@angular/core';
 import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  OnInit,
+} from '@angular/core';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,16 +20,19 @@ import { AppRoles } from '../../../app.roles';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { NotebookDialogComponent } from '../../components/notebook-dialog/notebook-dialog.component';
 import { TagDialogComponent } from '../../components/tag-dialog/tag-dialog.component';
+import { TodoDialogComponent } from '../../components/todo-dialog/todo-dialog.component';
 import { AutoFocusDirective } from '../../dir/autofocus-dir';
 import { IsInRoleDirective } from '../../dir/is.in.role.dir';
 import { NoteTitleValidatorDirective } from '../../dir/note-title.validator';
 import { Note, UpdateNote } from '../../models/note.model';
 import { Notebook } from '../../models/notebook.model';
 import { Tag } from '../../models/tag.model';
+import { Todo } from '../../models/todo.model';
 import { NoteExportService } from '../../services/note-export.service';
 import { NotebooksService } from '../../services/notebooks.service';
 import { NotesService } from '../../services/notes.service';
 import { TagsService } from '../../services/tags.service';
+import { TodosService } from '../../services/todos.service';
 
 @Component({
   selector: 'app-note-fullscreen',
@@ -48,6 +52,7 @@ import { TagsService } from '../../services/tags.service';
     MatSelectModule,
     MatListModule,
     ReactiveFormsModule,
+    MatCheckbox,
   ],
   templateUrl: './note-fullscreen.component.html',
   styleUrls: ['./note-fullscreen.component.scss'],
@@ -57,7 +62,7 @@ export class NoteFullscreenComponent implements OnInit {
   notebooks: Notebook[] = [];
   tags: Tag[] = [];
   selectedTags: Tag[] = [];
-  selectedFile: File | null = null;
+  todos: Todo[] = [];
   readonly AppRoles = AppRoles;
   private originalNote?: Note;
   private readonly NOT_FOUND_ROUTE = '/notfound';
@@ -71,15 +76,12 @@ export class NoteFullscreenComponent implements OnInit {
     private tagsService: TagsService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private noteExportService: NoteExportService
+    private noteExportService: NoteExportService,
+    private todosService: TodosService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.form = new FormGroup({
-      fileName: new FormControl({ value: '', disabled: true }),
-      fileType: new FormControl({ value: '', disabled: true }),
-    });
-
     this.loadTags();
     this.loadNotebooks();
     this.loadNote();
@@ -91,15 +93,19 @@ export class NoteFullscreenComponent implements OnInit {
       this.router.navigate([this.NOT_FOUND_ROUTE]);
       return;
     }
+
     this.notesService.getNoteById(+noteId).subscribe({
       next: (note) => {
         if (!note) {
           this.router.navigate([this.NOT_FOUND_ROUTE]);
           return;
         }
+
         this.note = { ...note };
         this.originalNote = { ...note };
         this.selectedTags = note.tags ? [...note.tags] : [];
+
+        this.loadTodos();
       },
       error: () => this.router.navigate([this.NOT_FOUND_ROUTE]),
     });
@@ -168,6 +174,26 @@ export class NoteFullscreenComponent implements OnInit {
     });
   }
 
+  deleteTodo(todo: Todo): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: { message: `Delete todo "${todo.title}"?` },
+    });
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (!confirmed) return;
+      this.todosService.delete(todo.id).subscribe({
+        next: () => {
+          this.todos = this.todos.filter((t) => t.id !== todo.id);
+          this.snackBar.open('Todo deleted', 'Close', { duration: 3000 });
+        },
+        error: () =>
+          this.snackBar.open('Failed to delete todo', 'Close', {
+            duration: 3000,
+          }),
+      });
+    });
+  }
+
   openCreateTagDialog(): void {
     const dialogRef = this.dialog.open(TagDialogComponent, { width: '400px' });
     dialogRef.afterClosed().subscribe((result: Tag) => {
@@ -181,6 +207,10 @@ export class NoteFullscreenComponent implements OnInit {
         });
       }
     });
+  }
+
+  trackByTodoId(index: number, todo: Todo): number {
+    return todo.id;
   }
 
   openEditTagDialog(tag: Tag): void {
@@ -226,6 +256,60 @@ export class NoteFullscreenComponent implements OnInit {
     });
   }
 
+  private loadTodos(): void {
+    this.todosService.getByNoteId(this.note.id).subscribe((todos) => {
+      this.todos = todos;
+      this.cdr.detectChanges();
+    });
+  }
+
+  openCreateTodoDialog(): void {
+    const dialogRef = this.dialog.open(TodoDialogComponent, {
+      width: '400px',
+      data: { noteId: this.note.id },
+    });
+
+    dialogRef.afterClosed().subscribe((created: Todo) => {
+      if (created) {
+        this.todos.push(created);
+        this.snackBar.open('Todo created', 'Close', { duration: 3000 });
+      }
+    });
+  }
+
+  openEditTodoDialog(todo: Todo): void {
+    const dialogRef = this.dialog.open(TodoDialogComponent, {
+      width: '400px',
+      data: {
+        noteId: this.note.id,
+        todo: { ...todo },
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((updated: Todo) => {
+      if (updated) {
+        const index = this.todos.findIndex((t) => t.id === updated.id);
+        if (index !== -1) {
+          this.todos[index] = updated;
+          this.snackBar.open('Todo updated', 'Close', { duration: 3000 });
+        }
+      }
+    });
+  }
+
+  updateTodo(todo: Todo): void {
+    this.todosService
+      .update(todo.id, {
+        title: todo.title,
+        done: todo.done,
+        dueDate: todo.dueDate,
+        noteId: this.note.id,
+      })
+      .subscribe(() => {
+        this.snackBar.open('Todo updated', 'Close', { duration: 3000 });
+      });
+  }
+
   selectNotebook(notebook: Notebook | null): void {
     this.note.notebook = notebook;
   }
@@ -268,6 +352,7 @@ export class NoteFullscreenComponent implements OnInit {
   delete(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '300px',
+      data: { message: `Delete note "${this.note.title}"?` },
     });
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (!confirmed) return;

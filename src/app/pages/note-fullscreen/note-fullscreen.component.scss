@@ -9,7 +9,7 @@
   padding: 2rem;
   gap: 1rem;
   background: #fff;
-  overflow: hidden;
+  overflow-y: auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
 }
@@ -117,12 +117,8 @@
 }
 
 .btn-new {
-  white-space: nowrap;
-  min-width: 180px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 36px;
+  align-self: center;
+  margin-top: 1rem;
 }
 
 .actions {
@@ -132,5 +128,48 @@
 
   button {
     min-width: 120px;
+  }
+}
+
+.todo-section {
+  margin-top: 2rem;
+}
+
+.todo-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.todo-list {
+  margin-bottom: 1rem;
+
+  mat-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .due-date {
+      font-size: 0.85rem;
+      color: #666;
+      margin-left: 0.5rem;
+    }
+  }
+}
+
+.todo-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+
+  .todo-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .icon-button {
+    margin-top: 0.2rem;
   }
 }

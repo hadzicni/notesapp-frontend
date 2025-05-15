@@ -1,4 +1,6 @@
-<h2 mat-dialog-title class="dialog-title">📓 New Notebook</h2>
+<h2 mat-dialog-title class="dialog-title">
+  {{ isEditMode ? "✏️ Edit Notebook" : "📓 New Notebook" }}
+</h2>
 
 <mat-dialog-content [formGroup]="form" class="dialog-content">
   <mat-form-field appearance="outline" class="full-width">
@@ -23,6 +25,6 @@
     [disabled]="form.invalid"
     (click)="save()"
   >
-    Create Notebook
+    {{ isEditMode ? "Update Notebook" : "Create Notebook" }}
   </button>
 </mat-dialog-actions>

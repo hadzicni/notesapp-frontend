@@ -3,7 +3,7 @@ export const environment = {
   frontendBaseUrl: 'http://localhost:4200',
   apiUrl: 'http://localhost:9090/api',
   keycloak: {
-    issuer: 'http://localhost:8080/realms/NotesApp',
+    issuer: 'https://auth.nikolahadzic.net/realms/NotesApp',
     clientId: 'NotesApp',
     requireHttps: false,
   },

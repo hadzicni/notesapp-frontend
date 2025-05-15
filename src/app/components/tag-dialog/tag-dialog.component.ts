@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,7 +7,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CreateTag, Tag } from '../../models/tag.model';
@@ -27,26 +31,46 @@ import { TagsService } from '../../services/tags.service';
   templateUrl: './tag-dialog.component.html',
   styleUrls: ['./tag-dialog.component.scss'],
 })
-export class TagDialogComponent {
+export class TagDialogComponent implements OnInit {
   form = new FormGroup({
     name: new FormControl('', [Validators.required]),
   });
 
+  isEditMode = false;
+
   constructor(
     private dialogRef: MatDialogRef<TagDialogComponent>,
-    private tagsService: TagsService
+    private tagsService: TagsService,
+    @Inject(MAT_DIALOG_DATA) public data?: Tag
   ) {}
 
+  ngOnInit(): void {
+    if (this.data) {
+      this.isEditMode = true;
+      this.form.patchValue({
+        name: this.data.name,
+      });
+    }
+  }
+
   save() {
-    if (this.form.valid) {
-      const newTag: CreateTag = {
-        name: this.form.value.name || '',
+    if (this.form.invalid) return;
+
+    const name = this.form.value.name ?? '';
+
+    if (this.isEditMode && this.data) {
+      const updatedTag: Tag = {
+        ...this.data,
+        name,
       };
 
+      this.tagsService.update(updatedTag).subscribe({
+        next: (result) => this.dialogRef.close(result),
+      });
+    } else {
+      const newTag: CreateTag = { name };
       this.tagsService.create(newTag).subscribe({
-        next: (savedTag: Tag) => {
-          this.dialogRef.close(savedTag);
-        },
+        next: (result) => this.dialogRef.close(result),
       });
     }
   }
