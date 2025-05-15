@@ -12,7 +12,7 @@ describe('NoAccessComponent', () => {
     locationSpy = jasmine.createSpyObj('Location', ['back']);
 
     await TestBed.configureTestingModule({
-      imports: [NoAccessComponent], // richtig für standalone-Komponenten
+      imports: [NoAccessComponent],
       providers: [{ provide: Location, useValue: locationSpy }],
     }).compileComponents();
 
