@@ -7,7 +7,7 @@
 <button
   mat-fab
   color="accent"
-  *ngIf="authService.isLoggedIn"
+  *appIsInRole="AppRoles.Admin"
   class="floating-info-btn"
   aria-label="Info"
   (click)="openInfoDialog()"
