@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { CreateNote, Note, UpdateNote } from '../models/note.model';
 
@@ -10,6 +10,8 @@ import { CreateNote, Note, UpdateNote } from '../models/note.model';
 export class NotesService {
   constructor(private http: HttpClient) {}
 
+  private notesSubject = new BehaviorSubject<Note[]>([]);
+  notes$ = this.notesSubject.asObservable();
   private endpointURL = '/notes';
 
   getNotes(): Observable<Note[]> {
@@ -65,5 +67,14 @@ export class NotesService {
       `${environment.apiUrl + this.endpointURL}/${note.id}`,
       updatedNote
     );
+  }
+
+  setNotes(notes: Note[]) {
+    this.notesSubject.next(notes);
+  }
+
+  addNote(note: Note) {
+    const current = this.notesSubject.value;
+    this.notesSubject.next([note, ...current]);
   }
 }

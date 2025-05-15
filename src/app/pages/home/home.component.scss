@@ -1,0 +1,14 @@
+.please-login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 100vh;
+  text-align: center;
+  font-size: 1.2rem;
+
+  button {
+    margin-top: 0.5rem;
+  }
+}

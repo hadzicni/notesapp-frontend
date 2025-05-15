@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { AppRoles } from '../../../app.roles';
 import { IsInRoleDirective } from '../../dir/is.in.role.dir';
 import { AppAuthService } from '../../services/app.auth.service';
+import { NotesService } from '../../services/notes.service';
 import { NoteDialogComponent } from '../note-dialog/note-dialog.component';
 
 @Component({
@@ -25,11 +26,21 @@ import { NoteDialogComponent } from '../note-dialog/note-dialog.component';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  constructor(private dialog: MatDialog, public authService: AppAuthService) {}
+  constructor(
+    private dialog: MatDialog,
+    public authService: AppAuthService,
+    private notesService: NotesService
+  ) {}
   readonly AppRoles = AppRoles;
 
   openDialog() {
-    this.dialog.open(NoteDialogComponent);
+    const dialogRef = this.dialog.open(NoteDialogComponent);
+
+    dialogRef.afterClosed().subscribe((newNote) => {
+      if (newNote) {
+        this.notesService.addNote(newNote);
+      }
+    });
   }
 
   login() {

@@ -29,7 +29,10 @@
   <ng-template #noNotesBlock>
     <div class="no-notes-wrapper">
       <div class="no-notes-message" *appIsInRole="AppRoles.Write">
-        <p>No notes available. Click the "+" button to create a new note.</p>
+        <p>
+          No notes available. Click the "<strong>New Note</strong>" button to
+          create a new note.
+        </p>
       </div>
       <div class="no-notes-message" *appIsNotInRole="AppRoles.Write">
         <p>No notes available.</p>

@@ -3,7 +3,12 @@
     <mat-icon>close</mat-icon>
   </button>
 
-  <input class="custom-title" [(ngModel)]="note.title" placeholder="Title" />
+  <input
+    class="custom-title"
+    [(ngModel)]="note.title"
+    placeholder="Title"
+    maxlength="20"
+  />
 
   <textarea
     class="custom-textarea"

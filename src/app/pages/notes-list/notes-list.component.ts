@@ -50,8 +50,13 @@ export class NotesListComponent implements OnInit {
       if (isLoggedIn) {
         this.notesService.getNotes().subscribe({
           next: (fetchedNotes) => {
-            this.notes = this.sortNotesByFavorite(fetchedNotes);
+            const sorted = this.sortNotesByFavorite(fetchedNotes);
+            this.notesService.setNotes(sorted);
           },
+        });
+
+        this.notesService.notes$.subscribe((notes) => {
+          this.notes = this.sortNotesByFavorite(notes);
         });
       }
     });
