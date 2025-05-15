@@ -13,11 +13,13 @@
     maxlength="15"
   />
 
-  <div *ngIf="titleInput.errors?.['emptyTitle']">Title cannot be empty.</div>
-  <div *ngIf="titleInput.errors?.['maxLength']">
+  <div *ngIf="titleInput.errors?.['emptyTitle']" class="error-msg">
+    Title cannot be empty.
+  </div>
+  <div *ngIf="titleInput.errors?.['maxLength']" class="error-msg">
     Title must be at most 15 characters long.
   </div>
-  <div *ngIf="titleInput.errors?.['invalidCharacters']">
+  <div *ngIf="titleInput.errors?.['invalidCharacters']" class="error-msg">
     Title contains invalid characters.
   </div>
 
@@ -36,6 +38,104 @@
   <div class="meta">
     <span>Created: {{ note.createdAt | date : "dd.MM.yyyy, HH:mm" }}</span> •
     <span>Updated: {{ note.updatedAt | date : "dd.MM.yyyy, HH:mm" }}</span>
+  </div>
+
+  <!-- Notebook selection + create / edit / delete -->
+  <div class="selection-group">
+    <mat-form-field appearance="fill" class="notebook-select">
+      <mat-label>Notebook</mat-label>
+      <mat-select
+        [(value)]="note.notebook"
+        (selectionChange)="selectNotebook($event.value)"
+        [compareWith]="compareNotebooks"
+      >
+        <mat-option [value]="null">No notebook</mat-option>
+        <mat-option *ngFor="let nb of notebooks" [value]="nb">{{
+          nb.name
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      mat-icon-button
+      color="primary"
+      aria-label="Create new notebook"
+      (click)="openCreateNotebookDialog()"
+      class="icon-button"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+
+    <button
+      mat-icon-button
+      color="accent"
+      aria-label="Edit notebook"
+      [disabled]="!note.notebook"
+      (click)="openEditNotebookDialog(note.notebook!)"
+      class="icon-button"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+
+    <button
+      mat-icon-button
+      color="warn"
+      aria-label="Delete notebook"
+      [disabled]="!note.notebook"
+      (click)="deleteNotebook(note.notebook!)"
+      class="icon-button"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+
+  <!-- Tag selection + create / edit / delete -->
+  <div class="selection-group">
+    <mat-form-field appearance="fill" class="tags-select">
+      <mat-label>Tags</mat-label>
+      <mat-select
+        [(value)]="selectedTags"
+        multiple
+        (selectionChange)="onTagsChange($event.value)"
+        [compareWith]="compareTags"
+      >
+        <mat-option *ngFor="let tag of tags" [value]="tag">{{
+          tag.name
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      mat-icon-button
+      color="primary"
+      aria-label="Create new tag"
+      (click)="openCreateTagDialog()"
+      class="icon-button"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+
+    <button
+      mat-icon-button
+      color="accent"
+      aria-label="Edit tag"
+      [disabled]="selectedTags.length !== 1"
+      (click)="openEditTagDialog(selectedTags[0])"
+      class="icon-button"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+
+    <button
+      mat-icon-button
+      color="warn"
+      aria-label="Delete tag"
+      [disabled]="selectedTags.length !== 1"
+      (click)="deleteTag(selectedTags[0])"
+      class="icon-button"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
   </div>
 
   <div class="actions">

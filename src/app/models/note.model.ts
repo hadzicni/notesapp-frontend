@@ -1,3 +1,8 @@
+// note.model.ts
+import { Attachment } from './attachment.model';
+import { Notebook } from './notebook.model';
+import { Tag } from './tag.model';
+
 export interface Note {
   id: number;
   title: string;
@@ -6,6 +11,10 @@ export interface Note {
   archived: boolean;
   createdAt: string;
   updatedAt: string;
+  userId: string;
+  notebook?: Notebook | null;
+  tags?: Tag[];
+  attachments?: Attachment[];
 }
 
 export interface CreateNote {
@@ -13,6 +22,8 @@ export interface CreateNote {
   content: string;
   favorite: boolean;
   archived: boolean;
+  notebook?: { id: number };
+  tags?: { id: number }[];
 }
 
 export interface UpdateNote {
@@ -21,6 +32,8 @@ export interface UpdateNote {
   content?: string;
   favorite?: boolean;
   archived?: boolean;
+  notebook?: { id: number } | null;
+  tags?: { id: number }[];
 }
 
 export interface NoteResponse {

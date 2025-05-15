@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Neues Attachment erstellen</h2>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-form-field appearance="fill" style="width: 100%">
+    <mat-label>Dateiname</mat-label>
+    <input matInput formControlName="fileName" />
+    <mat-error *ngIf="form.get('fileName')?.hasError('required')">
+      Dateiname ist erforderlich
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="width: 100%">
+    <mat-label>Dateityp</mat-label>
+    <input matInput formControlName="fileType" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="width: 100%">
+    <mat-label>Daten (Base64 oder URL)</mat-label>
+    <textarea matInput formControlName="data"></textarea>
+    <mat-error *ngIf="form.get('data')?.hasError('required')">
+      Daten sind erforderlich
+    </mat-error>
+  </mat-form-field>
+
+  <div mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="close()">Abbrechen</button>
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      [disabled]="form.invalid"
+    >
+      Erstellen
+    </button>
+  </div>
+</form>

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppRoles } from '../app.roles';
+import { TagDialogComponent } from './components/tag-dialog/tag-dialog.component';
 import { appCanActivate } from './guard/app.auth.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { NoAccessComponent } from './pages/no-access/no-access.component';
@@ -24,6 +25,10 @@ const routes: Routes = [
     component: NoteFullscreenComponent,
     canActivate: [appCanActivate],
     data: { roles: [AppRoles.Read] },
+  },
+  {
+    path: 'tags',
+    component: TagDialogComponent,
   },
   { path: 'noaccess', component: NoAccessComponent },
   { path: 'notfound', component: NotFoundComponent },
