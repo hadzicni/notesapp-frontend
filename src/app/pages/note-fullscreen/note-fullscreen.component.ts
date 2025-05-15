@@ -15,6 +15,7 @@ import { IsInRoleDirective } from '../../dir/is.in.role.dir';
 import { Note } from '../../models/note.model';
 import { NoteExportService } from '../../services/note-export.service';
 import { NotesService } from '../../services/notes.service';
+import { NoteTitleValidatorDirective } from '../../dir/note-title.validator';
 
 @Component({
   selector: 'app-note-fullscreen',
@@ -30,6 +31,7 @@ import { NotesService } from '../../services/notes.service';
     CommonModule,
     IsInRoleDirective,
     AutoFocusDirective,
+    NoteTitleValidatorDirective,
   ],
   templateUrl: './note-fullscreen.component.html',
   styleUrls: ['./note-fullscreen.component.scss'],

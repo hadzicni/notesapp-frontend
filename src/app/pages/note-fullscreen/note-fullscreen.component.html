@@ -6,9 +6,20 @@
   <input
     class="custom-title"
     [(ngModel)]="note.title"
+    name="title"
+    appNoteTitleValidator
+    #titleInput="ngModel"
     placeholder="Title"
     maxlength="20"
   />
+
+  <div *ngIf="titleInput.errors?.['emptyTitle']">Title cannot be empty.</div>
+  <div *ngIf="titleInput.errors?.['maxLength']">
+    Title must be at most 20 characters long.
+  </div>
+  <div *ngIf="titleInput.errors?.['invalidCharacters']">
+    Title contains invalid characters.
+  </div>
 
   <textarea
     class="custom-textarea"
