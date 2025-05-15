@@ -86,7 +86,6 @@ export class NoteFullscreenComponent implements OnInit {
   unloadNotification(event: BeforeUnloadEvent) {
     if (this.hasChanged()) {
       event.preventDefault();
-      event.returnValue = '';
     }
   }
 
