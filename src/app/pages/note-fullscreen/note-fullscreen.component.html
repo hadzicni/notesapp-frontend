@@ -62,6 +62,8 @@
       aria-label="Create new notebook"
       (click)="openCreateNotebookDialog()"
       class="icon-button"
+      matTooltip="Create new notebook"
+      matTooltipPosition="above"
     >
       <mat-icon>add</mat-icon>
     </button>
@@ -73,6 +75,8 @@
       [disabled]="!note.notebook"
       (click)="openEditNotebookDialog(note.notebook!)"
       class="icon-button"
+      matTooltip="Edit notebook"
+      matTooltipPosition="above"
     >
       <mat-icon>edit</mat-icon>
     </button>
@@ -84,6 +88,8 @@
       [disabled]="!note.notebook"
       (click)="deleteNotebook(note.notebook!)"
       class="icon-button"
+      matTooltip="Delete notebook"
+      matTooltipPosition="above"
     >
       <mat-icon>delete</mat-icon>
     </button>
@@ -111,6 +117,8 @@
       aria-label="Create new tag"
       (click)="openCreateTagDialog()"
       class="icon-button"
+      matTooltip="Create new tag"
+      matTooltipPosition="above"
     >
       <mat-icon>add</mat-icon>
     </button>
@@ -122,6 +130,8 @@
       [disabled]="selectedTags.length !== 1"
       (click)="openEditTagDialog(selectedTags[0])"
       class="icon-button"
+      matTooltip="Edit tag"
+      matTooltipPosition="above"
     >
       <mat-icon>edit</mat-icon>
     </button>
@@ -133,11 +143,12 @@
       [disabled]="selectedTags.length !== 1"
       (click)="deleteTag(selectedTags[0])"
       class="icon-button"
+      matTooltip="Delete tag"
+      matTooltipPosition="above"
     >
       <mat-icon>delete</mat-icon>
     </button>
   </div>
-
   <div class="actions">
     <button
       mat-raised-button

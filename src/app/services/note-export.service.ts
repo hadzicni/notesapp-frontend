@@ -8,17 +8,17 @@ import { environment } from '../../environments/environment';
 export class NoteExportService {
   constructor(private http: HttpClient) {}
 
-  private exportBaseUrl = environment.apiUrl + '/export/notes/pdf';
+  private endpointURL = environment.apiUrl + '/export/notes/pdf';
 
   exportAllNotesAsPdf(): void {
     this.http
-      .get(this.exportBaseUrl, { responseType: 'blob' })
+      .get(this.endpointURL, { responseType: 'blob' })
       .subscribe((blob) => this.downloadFile(blob, 'all_notes.pdf'));
   }
 
   exportNoteById(id: number): void {
     this.http
-      .get(`${this.exportBaseUrl}/${id}`, { responseType: 'blob' })
+      .get(`${this.endpointURL}/${id}`, { responseType: 'blob' })
       .subscribe((blob) => this.downloadFile(blob, `note_${id}.pdf`));
   }
 

@@ -1,5 +1,4 @@
 // note.model.ts
-import { Attachment } from './attachment.model';
 import { Notebook } from './notebook.model';
 import { Tag } from './tag.model';
 
@@ -14,7 +13,6 @@ export interface Note {
   userId: string;
   notebook?: Notebook | null;
   tags?: Tag[];
-  attachments?: Attachment[];
 }
 
 export interface CreateNote {

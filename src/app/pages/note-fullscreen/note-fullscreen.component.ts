@@ -1,11 +1,17 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -40,6 +46,8 @@ import { TagsService } from '../../services/tags.service';
     AutoFocusDirective,
     NoteTitleValidatorDirective,
     MatSelectModule,
+    MatListModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './note-fullscreen.component.html',
   styleUrls: ['./note-fullscreen.component.scss'],
@@ -49,9 +57,11 @@ export class NoteFullscreenComponent implements OnInit {
   notebooks: Notebook[] = [];
   tags: Tag[] = [];
   selectedTags: Tag[] = [];
+  selectedFile: File | null = null;
   readonly AppRoles = AppRoles;
   private originalNote?: Note;
   private readonly NOT_FOUND_ROUTE = '/notfound';
+  public form!: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
@@ -65,6 +75,11 @@ export class NoteFullscreenComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.form = new FormGroup({
+      fileName: new FormControl({ value: '', disabled: true }),
+      fileType: new FormControl({ value: '', disabled: true }),
+    });
+
     this.loadTags();
     this.loadNotebooks();
     this.loadNote();

@@ -8,9 +8,9 @@ import { environment } from '../../environments/environment';
 export class MetaService {
   constructor(private http: HttpClient) {}
 
-  private endpointURL = '/meta';
+  private endpointURL = `${environment.apiUrl}/meta`;
 
   getAppInfo() {
-    return this.http.get(environment.apiUrl + this.endpointURL + '/info');
+    return this.http.get(this.endpointURL + '/info');
   }
 }
