@@ -6,8 +6,6 @@ import { TagsService } from './tags.service';
 import { TodosService } from './todos.service';
 
 describe('TodosService', () => {
-  let service: TodosService;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],

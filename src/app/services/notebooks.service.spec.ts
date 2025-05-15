@@ -6,11 +6,9 @@ import { TagsService } from './tags.service';
 import { TodosService } from './todos.service';
 
 describe('NotebooksService', () => {
-  let service: NotebooksService;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule], 
+      imports: [HttpClientTestingModule],
       providers: [
         NotebooksService,
         TagsService,

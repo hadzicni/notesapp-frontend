@@ -7,7 +7,6 @@ import { TagDialogComponent } from './tag-dialog.component';
 describe('TagDialogComponent', () => {
   let component: TagDialogComponent;
   let fixture: ComponentFixture<TagDialogComponent>;
-  let tagsService: TagsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -24,7 +23,6 @@ describe('TagDialogComponent', () => {
 
     fixture = TestBed.createComponent(TagDialogComponent);
     component = fixture.componentInstance;
-    tagsService = TestBed.inject(TagsService);
   });
 
   it('should create', () => {
