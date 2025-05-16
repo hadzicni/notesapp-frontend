@@ -47,8 +47,8 @@
   </div>
 
   <div class="meta" aria-label="Note metadata">
-    <span>Created: {{ note.createdAt | date : "dd.MM.yyyy, HH:mm" }}</span> •
-    <span>Updated: {{ note.updatedAt | date : "dd.MM.yyyy, HH:mm" }}</span>
+    <span>Created: {{ note.createdAt | date: "dd.MM.yyyy, HH:mm" }}</span> •
+    <span>Updated: {{ note.updatedAt | date: "dd.MM.yyyy, HH:mm" }}</span>
   </div>
 
   <!-- Notebook Selection -->
@@ -191,7 +191,7 @@
           </mat-checkbox>
 
           <span class="due-date" *ngIf="todo.dueDate">
-            • due {{ todo.dueDate | date : "dd.MM.yyyy" }}
+            • due {{ todo.dueDate | date: "dd.MM.yyyy" }}
           </span>
 
           <button

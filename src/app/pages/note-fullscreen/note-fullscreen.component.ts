@@ -5,9 +5,9 @@ import {
   HostListener,
   OnInit,
 } from '@angular/core';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCheckbox } from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -53,7 +53,7 @@ import { TodosService } from '../../services/todos.service';
     MatSelectModule,
     MatListModule,
     ReactiveFormsModule,
-    MatCheckbox,
+    MatCheckboxModule,
   ],
   templateUrl: './note-fullscreen.component.html',
   styleUrls: ['./note-fullscreen.component.scss'],
@@ -64,10 +64,10 @@ export class NoteFullscreenComponent implements OnInit {
   tags: Tag[] = [];
   selectedTags: Tag[] = [];
   todos: Todo[] = [];
+
   readonly AppRoles = AppRoles;
   private originalNote?: Note;
   private readonly NOT_FOUND_ROUTE = '/notfound';
-  public form!: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
@@ -79,7 +79,7 @@ export class NoteFullscreenComponent implements OnInit {
     private dialog: MatDialog,
     private noteExportService: NoteExportService,
     private todosService: TodosService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -166,6 +166,7 @@ export class NoteFullscreenComponent implements OnInit {
           this.notebooks = this.notebooks.filter((nb) => nb.id !== notebook.id);
           if (this.note.notebook?.id === notebook.id) this.note.notebook = null;
           this.snackBar.open('Notebook deleted', 'Close', { duration: 3000 });
+          this.hardClose();
         },
         error: () =>
           this.snackBar.open('Failed to delete notebook', 'Close', {
@@ -224,7 +225,7 @@ export class NoteFullscreenComponent implements OnInit {
         const index = this.tags.findIndex((t) => t.id === result.id);
         if (index !== -1) this.tags[index] = result;
         const selectedIndex = this.selectedTags.findIndex(
-          (t) => t.id === result.id
+          (t) => t.id === result.id,
         );
         if (selectedIndex !== -1) {
           this.selectedTags[selectedIndex] = result;
@@ -382,7 +383,7 @@ export class NoteFullscreenComponent implements OnInit {
             newFavoriteStatus ? 'marked as favorite' : 'unmarked as favorite'
           }!`,
           'Close',
-          { duration: 3000 }
+          { duration: 3000 },
         );
       },
     });
@@ -396,7 +397,7 @@ export class NoteFullscreenComponent implements OnInit {
         this.snackBar.open(
           `Note ${newArchivedStatus ? 'archived' : 'unarchived'}!`,
           'Close',
-          { duration: 3000 }
+          { duration: 3000 },
         );
       },
     });
@@ -447,6 +448,10 @@ export class NoteFullscreenComponent implements OnInit {
         this.router.navigate(['/']);
       }
     });
+  }
+
+  hardClose(): void {
+    this.router.navigate(['/']);
   }
 
   get characterCount(): number {
