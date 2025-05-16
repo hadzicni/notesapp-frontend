@@ -7,7 +7,7 @@ Information about the application:
 -------------------------------------
 Application Name: NotesApp
 
-Production Mode: No
+Production Mode: ${environment.production ? 'Yes' : 'No'}
 Keycloak Issuer URL: ${environment.keycloak.issuer}
 Keycloak Client ID: ${environment.keycloak.clientId}
 API Base URL: ${environment.apiUrl}
