@@ -1,4 +1,3 @@
-// note.model.ts
 import { Notebook } from './notebook.model';
 import { Tag } from './tag.model';
 

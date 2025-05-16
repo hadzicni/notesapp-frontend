@@ -34,7 +34,7 @@ import { NotebooksService } from '../../services/notebooks.service';
 export class NotebookDialogComponent implements OnInit {
   form = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    description: new FormControl(''), // muss hier sein, sonst patchValue schlägt fehl
+    description: new FormControl(''),
   });
 
   isEditMode = false;
@@ -42,7 +42,7 @@ export class NotebookDialogComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<NotebookDialogComponent>,
     private notebooksService: NotebooksService,
-    @Inject(MAT_DIALOG_DATA) public data?: Notebook
+    @Inject(MAT_DIALOG_DATA) public data?: Notebook,
   ) {}
 
   ngOnInit(): void {

@@ -14,7 +14,7 @@ const NO_ACCESS_ROUTE = '/noaccess';
 export const appCanActivate: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  state: RouterStateSnapshot
+  state: RouterStateSnapshot,
 ) => {
   const authService: AppAuthService = inject(AppAuthService);
   const oauthService: OAuthService = inject(OAuthService);
@@ -38,7 +38,7 @@ export const appCanActivate: CanActivateFn = (
 
 function checkRoles(
   route: ActivatedRouteSnapshot,
-  userRoles: string[]
+  userRoles: string[],
 ): boolean {
   const roles = route.data['roles'] as Array<string>;
 
@@ -60,5 +60,5 @@ function checkRoles(
 
 export const appCanActivateChild: CanActivateChildFn = (
   route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
+  state: RouterStateSnapshot,
 ) => appCanActivate(route, state);
