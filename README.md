@@ -3,7 +3,7 @@
 A modern **Angular 17** frontend for managing notebooks, notes, todos, and tags — tightly integrated with the [NotesApp Backend](https://github.com/hadzicni/NotesApp-Backend). Clean material-based UI, role support, dialog-driven actions and dynamic note interaction.
 
 ![Angular](https://img.shields.io/badge/Angular-17-red?logo=angular)
-![License](https://img.shields.io/badge/license-MIT-green)
+![License](https://img.shields.io/badge/license-Apache--2.0-blue)
 ![Language](https://img.shields.io/badge/language-TypeScript-blue)
 
 ---
