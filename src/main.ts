@@ -2,10 +2,9 @@ import { printBanner } from './banner';
 
 printBanner();
 
-import { LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import {
   HTTP_INTERCEPTORS,
-  HttpClient,
   provideHttpClient,
   withInterceptorsFromDi,
   withXsrfConfiguration,
@@ -51,8 +50,8 @@ export function storageFactory(): OAuthStorage {
   return sessionStorage;
 }
 
-export function HttpLoaderFactory(httpClient: HttpClient) {
-  return new TranslateHttpLoader(httpClient);
+export function HttpLoaderFactory() {
+  return new TranslateHttpLoader();
 }
 
 bootstrapApplication(AppComponent, {
@@ -65,10 +64,9 @@ bootstrapApplication(AppComponent, {
         loader: {
           provide: TranslateLoader,
           useFactory: HttpLoaderFactory,
-          deps: [HttpClient],
         },
       }),
-      MatMomentDateModule
+      MatMomentDateModule,
     ),
     { provide: AuthConfig, useValue: authConfig },
     { provide: HTTP_INTERCEPTORS, useClass: HttpXSRFInterceptor, multi: true },
@@ -83,7 +81,7 @@ bootstrapApplication(AppComponent, {
       withXsrfConfiguration({
         cookieName: 'XSRF-TOKEN',
         headerName: 'X-XSRF-TOKEN',
-      })
+      }),
     ),
     provideAnimations(),
     provideEnvironmentInitializer(() => {

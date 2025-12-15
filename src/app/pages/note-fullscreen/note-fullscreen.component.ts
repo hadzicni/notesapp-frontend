@@ -1,10 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import {
-  ChangeDetectorRef,
-  Component,
-  HostListener,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -224,9 +219,7 @@ export class NoteFullscreenComponent implements OnInit {
       if (result) {
         const index = this.tags.findIndex((t) => t.id === result.id);
         if (index !== -1) this.tags[index] = result;
-        const selectedIndex = this.selectedTags.findIndex(
-          (t) => t.id === result.id,
-        );
+        const selectedIndex = this.selectedTags.findIndex((t) => t.id === result.id);
         if (selectedIndex !== -1) {
           this.selectedTags[selectedIndex] = result;
           this.note.tags = [...this.selectedTags];
@@ -379,9 +372,7 @@ export class NoteFullscreenComponent implements OnInit {
       next: (updatedNote) => {
         this.note.favorite = updatedNote.favorite;
         this.snackBar.open(
-          `Note ${
-            newFavoriteStatus ? 'marked as favorite' : 'unmarked as favorite'
-          }!`,
+          `Note ${newFavoriteStatus ? 'marked as favorite' : 'unmarked as favorite'}!`,
           'Close',
           { duration: 3000 },
         );
@@ -394,11 +385,9 @@ export class NoteFullscreenComponent implements OnInit {
     this.notesService.archiveNote(this.note, newArchivedStatus).subscribe({
       next: (updatedNote) => {
         this.note.archived = updatedNote.archived;
-        this.snackBar.open(
-          `Note ${newArchivedStatus ? 'archived' : 'unarchived'}!`,
-          'Close',
-          { duration: 3000 },
-        );
+        this.snackBar.open(`Note ${newArchivedStatus ? 'archived' : 'unarchived'}!`, 'Close', {
+          duration: 3000,
+        });
       },
     });
   }
@@ -427,10 +416,12 @@ export class NoteFullscreenComponent implements OnInit {
     if (this.hasChanged()) event.preventDefault();
   }
 
-  @HostListener('document:keydown.control.s', ['$event'])
+  @HostListener('document:keydown', ['$event'])
   handleSaveShortcut(event: KeyboardEvent): void {
-    event.preventDefault();
-    this.save();
+    if (event.ctrlKey && event.key.toLowerCase() === 's') {
+      event.preventDefault();
+      this.save();
+    }
   }
 
   close(): void {
